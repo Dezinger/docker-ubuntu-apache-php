@@ -1,0 +1,47 @@
+#!/bin/bash
+# chkconfig: 345 20 80
+# description: init.d script for headless libreoffice
+#
+# processname: soffice
+#
+# source function library
+. /lib/lsb/init-functions
+
+RETVAL=0
+SOFFICE_ACCEPT='socket'
+SOFFICE_HOST='localhost' #`ifconfig|grep 'inet addr'|cut -d':' -f2|awk '{print $1}' | grep 192.168.0` #Show ip addr of local server in local net
+SOFFICE_PORT='2002'
+SOFFICE_OTHER_OPTS='urp;StarOffice.ComponentContext'
+
+SOFFICE_PATH='/usr/bin'
+SOFFICE_ARGS='--headless --accept='$SOFFICE_ACCEPT',host='$SOFFICE_HOST',port='$SOFFICE_PORT';'$SOFFICE_OTHER_OPTS''
+SOFFICE_PIDFILE=/var/run/soffice.bin.pid
+
+start_soffice() {
+       echo -n $"Starting LibreOffice.org"
+       $SOFFICE_PATH/libreoffice $SOFFICE_ARGS >/dev/null 2>&1 &
+       pidof soffice > $SOFFICE_PIDFILE
+       echo
+}
+start() {
+       start_soffice
+}
+stop() {
+       echo -n $"Stopping LibreOffice"
+       killproc soffice
+       echo
+}
+case "$1" in
+       start)
+               start
+               ;;
+       stop)
+               stop
+               ;;
+       restart)
+               stop
+               start
+               ;;
+       *)
+               echo $"Usage: $0 {start|stop|restart}"
+esac

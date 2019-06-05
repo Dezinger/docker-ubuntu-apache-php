@@ -46,9 +46,11 @@ RUN \
     make \
     zlib1g-dev && \
     pecl install mcrypt-1.0.2 && \
+# config php & ext
     ln -sf /etc/php/$PHP_VERSION/cli/php.ini /etc/php/$PHP_VERSION/apache2/php.ini && \
     ln -sf /etc/php/$PHP_VERSION/mods-available/mcrypt.ini /etc/php/$PHP_VERSION/apache2/conf.d/20-mcrypt.ini && \
     ln -sf /etc/php/$PHP_VERSION/mods-available/mcrypt.ini /etc/php/$PHP_VERSION/cli/conf.d/20-mcrypt.ini && \
+# print version & modules
     php -v && \
     php -m && \
 # enabled apache2 modules
@@ -59,6 +61,7 @@ RUN \
     chmod a+x /usr/local/bin/composer && \
 # setup mode
     chmod +x /usr/local/bin/add-ssh-keys.sh && \
+    chmod +x /etc/init.d/libreoffice && \
 # clean
     apt-get remove -y software-properties-common && \
     apt-get -y autoremove && apt-get -y clean && apt-get autoclean && \
