@@ -46,6 +46,9 @@ RUN \
     make \
     zlib1g-dev && \
     pecl install mcrypt-1.0.2 && \
+    ln -sf /etc/php/$PHP_VERSION/cli/php.ini /etc/php/$PHP_VERSION/apache2/php.ini && \
+    ln -sf /etc/php/$PHP_VERSION/mods-available/mcrypt.ini /etc/php/$PHP_VERSION/apache2/conf.d/20-mcrypt.ini && \
+    ln -sf /etc/php/$PHP_VERSION/mods-available/mcrypt.ini /etc/php/$PHP_VERSION/cli/conf.d/20-mcrypt.ini && \
     php -v && \
     php -m && \
 # enabled apache2 modules
