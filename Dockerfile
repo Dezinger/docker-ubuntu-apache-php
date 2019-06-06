@@ -60,8 +60,8 @@ RUN \
     php -- --install-dir=/usr/local/bin/ --filename=composer && \
     chmod a+x /usr/local/bin/composer && \
 # setup mode
-    chmod +x /usr/local/bin/add-ssh-keys.sh && \
-    chmod +x /etc/init.d/libreoffice && \
+    chmod a+x /usr/local/bin/add-ssh-keys.sh && \
+    chmod a+x /etc/init.d/libreoffice && \
 # clean
     apt-get remove -y software-properties-common && \
     apt-get -y autoremove && apt-get -y clean && apt-get autoclean && \
