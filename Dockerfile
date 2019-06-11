@@ -19,7 +19,7 @@ RUN \
 # setup
     apt-get -y update && \
     apt-get install --no-install-recommends -y \
-    ssh ca-certificates git \
+    ssh ca-certificates git openjdk-8-jdk \
     apache2 libreoffice unoconv \
     libapache2-mod-rpaf \
     libapache2-mod-php$PHP_VERSION \
@@ -39,6 +39,8 @@ RUN \
     php$PHP_VERSION-mbstring \
     php$PHP_VERSION-msgpack \
     php$PHP_VERSION-zip \
+    php$PHP_VERSION-soap \
+    php$PHP_VERSION-bcmath \
     php-pear \
     php$PHP_VERSION-dev \
     libmcrypt4 \
@@ -54,7 +56,7 @@ RUN \
     php -v && \
     php -m && \
 # enabled apache2 modules
-    a2enmod rewrite && \
+    a2enmod headers rewrite remoteip && \
 # setup composer
     php -r "readfile('http://getcomposer.org/installer');" | \
     php -- --install-dir=/usr/local/bin/ --filename=composer && \
@@ -66,6 +68,7 @@ RUN \
     apt-get remove -y software-properties-common && \
     apt-get -y autoremove && apt-get -y clean && apt-get autoclean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    rm /var/log/lastlog /var/log/faillog && \
 # user
     usermod -u 1000 www-data
 
